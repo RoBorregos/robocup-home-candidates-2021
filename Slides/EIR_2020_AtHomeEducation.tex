@@ -1,0 +1,116 @@
+\documentclass[10pt,spanish,aspectratio=1610]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[spanish]{babel}
+\spanishdecimal{.}
+\usepackage{subfig}
+\usepackage{fancyhdr}
+\usepackage{pstricks}
+\usepackage[ruled]{algorithm2e}
+%\usepackage{ragged2e}
+%\usepackage[natbibapa]{apacite}
+% \bibliographystyle{apacite} % This is the style you should use with `apacite`.
+%\justifying
+\DeclareMathOperator{\atantwo}{atan2}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+\usetheme{Boadilla}
+\setbeamercovered{transparent}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{frametitle}
+{
+  \leavevmode
+  \hbox{
+  \begin{beamercolorbox}[wd=0.6\paperwidth,left]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=0.4\paperwidth,center]{frametitle}
+    \usebeamerfont{frametitle}\hfill\small{\thesection. \insertsection}
+  \end{beamercolorbox}
+  }
+}
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[colsep=-0.5pt,wd=.33\paperwidth,ht=3ex,dp=1.5ex,center]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\insertshortauthor~~ (\insertshortinstitute)
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[colsep=-0.5pt,wd=.34\paperwidth,ht=3ex,dp=1.5ex,center]{date in head/foot}%
+      \usebeamerfont{author in head/foot}\insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[colsep=-0.5pt,wd=.33\paperwidth,ht=3ex,dp=1.5ex,right]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\insertshortdate{}\hspace*{2em}\scriptsize{\insertframenumber{}}\hspace*{1ex}
+    \end{beamercolorbox}
+  }
+}
+
+\begin{document}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\figurename}{Figura}
+
+\title[Robocup@Home Beginners]{Curso Introductorio para la Categoría\\Robocup@Home Beginners}
+\author[Marco Negrete y Luis González]{Instructores: \\ Marco Antonio Negrete Villanueva \\ Luis González Nava}
+\institute[FI, UNAM]{Facultad de Ingeniería, UNAM}
+\date[EIR 2020]{Escuela de Invierno de Robótica 2020, Saltillo, México.}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}\frametitle{La categoria @Home}
+  
+\end{frame}
+
+\begin{frame}\frametitle{La categoria @Home Beginners}
+  
+\end{frame}
+
+\begin{frame}\frametitle{Hardware necesario}
+  \begin{itemize}
+  \item Base móvil (se recomienda omnidireccional)
+    \begin{itemize}
+    \item Debe suscribirse al tópico \texttt{/cmd\_vel} de tipo \texttt{geometry\_msgs/Twist}
+    \item Debe publicar una transformación de \texttt{odom} a \texttt{base\_link} con la información de la odometría.
+    \end{itemize}
+  \item Cámara (de preferencia, RGB-D)
+  \item Sensor Láser (se puede sustituir con cámara RGB-D)
+    \begin{itemize}
+    \item Generalmente se opera con el nodo \texttt{urg\_node}
+    \item Debe publicar el tópico \texttt{/scan} de tipo \texttt{sensor\_msgs/LaserScan}
+      \item Si no se dispone de uno, las lecturas se pueden simular con el paquete \texttt{pointcloud\_to\_laserscan}
+    \end{itemize}
+  \item Manipulador (al menos 4 GdL)
+  \item Laptop
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio 1}
+  Modificar el archivo \texttt{catkin\_ws/src/bring\_up/launch/getting\_started.launch} para cambiar lo siguiente:
+  \begin{itemize}
+  \item Cambiar la descripción del robot (\texttt{robotino.urdf} o \texttt{justina\_simple.urdf}
+  \item Cambiar el mapa del ambiente
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Base móvil}
+  
+\end{frame}
+
+\begin{frame}\frametitle{Pocketsphinx}
+  \begin{itemize}
+  \item Hay varios repositorios para ROS:
+    \begin{itemize}
+    \item \url{https://github.com/Pankaj-Baranwal/pocketsphinx}
+    \end{itemize}
+  \item El usuario debe estar agregado al grupo \textit{audio}: \texttt{sudo usermod -a -G audio <user\_name>}
+  \item Documentación en \texttt{https://cmusphinx.github.io/}
+  \item Se puede hacer reconocimiento usando una lista de palabras, un modelo de lenguaje o una gramática.
+  \item Se utilizarán gramáticas y sus correspondientes diccionarios.
+  \item Para construir diccionarios, visitar \texttt{https://cmusphinx.github.io/wiki/tutorialdict/}
+    \item Para construir gramáticas, visitar \texttt{https://www.w3.org/TR/2000/NOTE-jsgf-20000605/}
+  \end{itemize}
+\end{frame}
+
+\end{document}
