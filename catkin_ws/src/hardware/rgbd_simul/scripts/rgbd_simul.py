@@ -18,6 +18,7 @@ def main():
     bag = rosbag.Bag(bag_file)
     while not rospy.is_shutdown():
         for topic, msg, t in bag.read_messages(topics=["/camera/depth/color/points", "/camera/color/image_raw"]):
+            msg.header.stamp = rospy.Time.now()
             if topic == "/camera/color/image_raw":
                 pub_rgb.publish(msg)
             if topic == "/camera/depth/color/points":
