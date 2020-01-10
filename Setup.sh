@@ -10,3 +10,5 @@ sudo apt-get install swig
 sudo apt-get install python-pip
 sudo pip install pyaudio
 sudo pip install pocketsphinx
+sudo pip install opencv-python==3.4.2.16
+sudo pip install opencv-contrib-python==3.4.2.16
