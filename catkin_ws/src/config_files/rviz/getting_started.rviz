@@ -63,7 +63,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_depth_optical_frame:
+        camera_color_optical_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -162,7 +162,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.00999999978
       Style: Flat Squares
-      Topic: /camera/depth/color/points
+      Topic: /camera/depth_registered/points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -219,10 +219,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.2953991
+      Pitch: 0.0703991205
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.39855361
+      Yaw: 4.53855419
     Saved: ~
 Window Geometry:
   Displays:
