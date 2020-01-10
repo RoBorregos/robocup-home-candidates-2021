@@ -9,7 +9,7 @@ def main():
     print "INITIALIZING RGBD_SIMUL NODE..."
     rospy.init_node("rgbd_simul")
     loop = rospy.Rate(30)
-    pub_rgbd = rospy.Publisher("/camera/depth/color/points", PointCloud2, queue_size=1)
+    pub_rgbd = rospy.Publisher("/camera/depth_registered/points", PointCloud2, queue_size=1)
     pub_rgb  = rospy.Publisher("/camera/color/image_raw",    Image      , queue_size=1)
     bag_file = ""
     if rospy.has_param("~bag_file"):
@@ -17,11 +17,11 @@ def main():
 
     bag = rosbag.Bag(bag_file)
     while not rospy.is_shutdown():
-        for topic, msg, t in bag.read_messages(topics=["/camera/depth/color/points", "/camera/color/image_raw"]):
+        for topic, msg, t in bag.read_messages(topics=["/camera/depth_registered/points", "/camera/color/image_raw"]):
             msg.header.stamp = rospy.Time.now()
             if topic == "/camera/color/image_raw":
                 pub_rgb.publish(msg)
-            if topic == "/camera/depth/color/points":
+            if topic == "/camera/depth_registered/points":
                 pub_rgbd.publish(msg)
             loop.sleep()
     bag.close()
