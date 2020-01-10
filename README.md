@@ -35,3 +35,7 @@ Para compilar las diapositivas del curso (se asume que se tiene instalado texliv
 
 * $ cd ~/EIR-2020-AtHomeEducation/Slides
 * $ pdflatex EIR_2020_AtHomeEducation.tex
+
+##Archivos útiles
+Dirección Drive para rosbags
+https://drive.google.com/drive/folders/16Qu8A0ad0OVFbceSa240HcpdFSWXZBHi
