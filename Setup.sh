@@ -8,6 +8,7 @@ sudo apt-get install ros-melodic-sound-play -y
 sudo apt-get install ros-melodic-dwa-local-planner
 sudo apt-get install swig
 sudo apt-get install python-pip
+sudo apt-get install portaudio19-dev
 sudo pip install pyaudio
 sudo pip install pocketsphinx
 sudo pip install opencv-python==3.4.2.16
