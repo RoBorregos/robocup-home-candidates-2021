@@ -8,6 +8,7 @@
 \usepackage{subfig}
 \usepackage{fancyhdr}
 \usepackage{pstricks}
+\usepackage{verbatim}
 \usepackage[ruled]{algorithm2e}
 %\usepackage{ragged2e}
 %\usepackage[natbibapa]{apacite}
@@ -71,34 +72,83 @@
   \begin{itemize}
   \item Base móvil (se recomienda omnidireccional)
     \begin{itemize}
-    \item Debe suscribirse al tópico \texttt{/cmd\_vel} de tipo \texttt{geometry\_msgs/Twist}
-    \item Debe publicar una transformación de \texttt{odom} a \texttt{base\_link} con la información de la odometría.
+    \item Peoplebot
+    \item Festo
+    \item Construída
     \end{itemize}
   \item Cámara (de preferencia, RGB-D)
+    \begin{itemize}
+    \item Kinect
+    \item Intel Real Sense
+    \end{itemize}
   \item Sensor Láser (se puede sustituir con cámara RGB-D)
     \begin{itemize}
-    \item Generalmente se opera con el nodo \texttt{urg\_node}
-    \item Debe publicar el tópico \texttt{/scan} de tipo \texttt{sensor\_msgs/LaserScan}
-      \item Si no se dispone de uno, las lecturas se pueden simular con el paquete \texttt{pointcloud\_to\_laserscan}
+    \item Hokuyo
+    \item Lidar
+    \item Generalmente se opera con el nodo \texttt{urg\_node}y debe publicar el tópico \texttt{/scan} de tipo \texttt{sensor\_msgs/LaserScan}
+    \item Si no se dispone de uno, las lecturas se pueden simular con el paquete \texttt{pointcloud\_to\_laserscan} pero no es muy recomendable.
     \end{itemize}
-  \item Manipulador (al menos 4 GdL)
+  \item Manipulador
+    \begin{itemize}
+    \item Motores Dynamixel
+    \item Kuka
+    \end{itemize}
   \item Laptop
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Ejercicio 1}
-  Modificar el archivo \texttt{catkin\_ws/src/bring\_up/launch/getting\_started.launch} para cambiar lo siguiente:
+\begin{frame}\frametitle{Configuraciones mínimas}
   \begin{itemize}
-  \item Cambiar la descripción del robot (\texttt{robotino.urdf} o \texttt{justina\_simple.urdf}
-  \item Cambiar el mapa del ambiente
+    \item Se requiere de un marco de referencia absoluto, comúnmente llamado \texttt{map}. En Rviz, \texttt{map} se selecciona como referencia global.
+  \item Se requiere de un archivo que describa la cinemática del robot (archivo \texttt{urdf}), es decir, el árbol de transformaciones. Se recomienda que el \textit{frame} raíz tenga el nombre \texttt{base\_link}.
+    \begin{itemize}
+    \item Tiene formato \texttt{xml} y se puede hacer a mano o con herramientas como \texttt{xacro}
+    \item \url{http://wiki.ros.org/urdf/Tutorials}
+    \item \url{http://wiki.ros.org/xacro}
+    \item Ejemplo en este repositorio: \texttt{catkin\_ws/src/hardware/robot\_description/robotino.urdf}
+    \end{itemize}
+  \item La base móvil debe publicar su odometría y aceptar comandos de movimiento.
+    \begin{itemize}
+    \item Para la odometría, debe publicar la transformación de \texttt{odom} a \texttt{base\_link}.
+    \item Para los comandos de movimiento, debe suscribirse al tópico \texttt{/cmd\_vel} de tipo \texttt{geometry\_msgs/Twist}.
+    \end{itemize}
+  \item Se requiere de un nodo que publique la transformación de \texttt{odom} a \texttt{map}.
+    \begin{itemize}
+    \item Si se está construyendo un mapa, esta transformación la publican paquetes como \texttt{gmapping} o \texttt{hector-mapping}.
+    \item Si ya se tiene un mapa, la trasnformación la publica el nodo de localización, generalmente \texttt{amcl}. 
+    \end{itemize}
+  \item El archivo de descripción \textit{urdf} debe contener las transformaciones (o una secuencia de ellas) de \texttt{base\_link} a los marcos de referencia del láser, cámara y demás sensores.
+  \item El archivo \texttt{catkin\_ws/src/bring\_up/launch/robotino\_simul.launch} es un ejemplo donde se lanza todo lo anterior. 
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Base móvil}
+\begin{frame}\frametitle{Ejercicio 1}
+  Ejecutar el comando \texttt{roslaunch bring\_up robotino\_simul.launch}.
   
+  Detener la ejecución y modificar el archivo \texttt{catkin\_ws/src/bring\_up/launch/robotino\_simul.launch} para cambiar lo siguiente:
+  \begin{itemize}
+  \item Cambiar la descripción del robot (\texttt{robotino.urdf} o \texttt{justina\_simple.urdf})
+  \item Cambiar el mapa del ambiente (Universum, Biorobotica o TMR\_2019)
+  \end{itemize}
+  Modificar el archivo \texttt{catkin\_ws/src/hardware/robot\_description/robotino.urdf} y ver qué sucede cuando:
+  \begin{itemize}
+  \item Se cambian los valores de la etiqueta \texttt{origin} en la línea 114. 
+  \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Pocketsphinx}
+\begin{frame}\frametitle{Navegación}
+  Dar algo de teoría. 
+\end{frame}
+
+\begin{frame}\frametitle{Navegación}
+  Ejercicios moviéndole a los params
+\end{frame}
+
+\begin{frame}\frametitle{Navegación}
+  Recomendaciones para hacer una navegación propia. 
+\end{frame}
+
+\begin{frame}\frametitle{Reconocimiento de voz con Pocketsphinx}
   \begin{itemize}
   \item Hay varios repositorios para ROS:
     \begin{itemize}
@@ -109,8 +159,40 @@
   \item Se puede hacer reconocimiento usando una lista de palabras, un modelo de lenguaje o una gramática.
   \item Se utilizarán gramáticas y sus correspondientes diccionarios.
   \item Para construir diccionarios, visitar \texttt{https://cmusphinx.github.io/wiki/tutorialdict/}
-    \item Para construir gramáticas, visitar \texttt{https://www.w3.org/TR/2000/NOTE-jsgf-20000605/}
+  \item Para construir gramáticas, visitar \texttt{https://www.w3.org/TR/2000/NOTE-jsgf-20000605/}
   \end{itemize}
 \end{frame}
 
+\begin{frame}\frametitle{Ejercicio}
+  Hacer una nueva gramática para una prueba simple de GPSR.
+  
+\end{frame}
+
+\begin{frame}\frametitle{Síntesis de voz con SoundPlay}
+  
+\end{frame}
+
+\begin{frame}\frametitle{OpenCV: Segmentación por color}
+  Dar algo de teoría
+\end{frame}
+
+\begin{frame}\frametitle{OpenCV: Segmentación por color}
+  Cosas de ROS y ejercicios
+\end{frame}
+
+\begin{frame}\frametitle{OpenCV: Reconocimiento con SIFT}
+  Dar algo de teoría
+\end{frame}
+
+\begin{frame}\frametitle{OpenCV: Reconocimiento con SIFT}
+  Cosas de ROS y ejercicios
+\end{frame}
+
+\begin{frame}\frametitle{Planeación de acciones}
+Dar opciones: FSM, clips, MDP.  
+\end{frame}
+
+\begin{frame}\frametitle{Planeación de acciones. Ejercicio}
+Hacer programa para obedecer un comando de navegar a un lugar y buscar a una persona.
+\end{frame}
 \end{document}
