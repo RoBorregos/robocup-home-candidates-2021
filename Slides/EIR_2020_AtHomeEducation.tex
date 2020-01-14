@@ -374,12 +374,37 @@
 \end{frame}
 
 \begin{frame}\frametitle{Ejercicio}
-  Verificar los volúmenes del micrófono. Correr el launch con la gramática como está. Modificar el launch para usar otra gramática. Hacer una nueva gramática para la prueba final de @Home Beginners.
-  
+  \begin{enumerate}
+  \item Ejecutar el comando \texttt{roslaunch bring\_up pocketsphinx\_test.launch}
+  \item Verificar los volúmenes del micrófono
+  \item Revisar el archivo \texttt{catkin\_ws/src/pocketsphinx/vocab/voice\_cmd.gram} para ver las frases que se pueden reconocer de acuerdo con la gramática.
+  \item Probar el reconocimiento de voz. 
+  \end{enumerate}
 \end{frame}
 
+%%%%%%%%%%
+%%%%%%%%%% RECONOCIMIENTO DE VOZ
+%%%%%%%%%%
+\section{Síntesis de voz}
 \begin{frame}\frametitle{Síntesis de voz con SoundPlay}
-  
+  \begin{itemize}
+  \item Es un paquete que permite reproducir archivos \texttt{.wav} o \texttt{.ogg}, sonidos predeterminados y síntesis de voz.
+  \item La síntesis de voz se hace utilizando Festival (\url{http://www.cstr.ed.ac.uk/projects/festival/}).
+  \item Para sintetizar voz, basta con correr el nodo \texttt{soundplay\_node} y publicar un mensaje de tipo \texttt{sound\_play/SoundRequest} con lo siguiente:
+    \begin{itemize}
+    \item msg\_speech.sound   = -3                 
+    \item msg\_speech.command = 1                  
+    \item msg\_speech.volume  = 1.0                
+    \item msg\_speech.arg2    = ``voz a utilizar''
+    \item msg\_speech.arg = ``texto a sintetizar''
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio}
+  \begin{enumerate}
+    \item Ejecutar el comando 
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}\frametitle{OpenCV: Segmentación por color}
