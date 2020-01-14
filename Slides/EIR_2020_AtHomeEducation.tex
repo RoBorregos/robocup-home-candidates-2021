@@ -356,22 +356,25 @@
 %%%%%%%%%%
 \section{Reconocimiento de voz}
 \begin{frame}\frametitle{Reconocimiento de voz con Pocketsphinx}
+  Pocketsphinx es un \textit{toolkit} open source desarrollado por la Universidad de Carnegie Mellon (\url{https://cmusphinx.github.io/}).
   \begin{itemize}
-  \item Hay varios repositorios para ROS:
+  \item Aunque el toolbox original no está hecho específicamente para ROS, ya existen varios repositorios con nodos ya implementados que integran ROS y Pocketsphinx:
     \begin{itemize}
+    \item \url{https://github.com/mikeferguson/pocketsphinx}
     \item \url{https://github.com/Pankaj-Baranwal/pocketsphinx}
     \end{itemize}
-  \item El usuario debe estar agregado al grupo \textit{audio}: \texttt{sudo usermod -a -G audio <user\_name>}
-  \item Documentación en \texttt{https://cmusphinx.github.io/}
+  \item El usuario debe estar agregado al grupo \textit{audio} para el correcto funcionamiento: \texttt{sudo usermod -a -G audio <user\_name>}
+  \end{itemize}
+  \begin{itemize}
   \item Se puede hacer reconocimiento usando una lista de palabras, un modelo de lenguaje o una gramática.
   \item Se utilizarán gramáticas y sus correspondientes diccionarios.
-  \item Para construir diccionarios, visitar \texttt{https://cmusphinx.github.io/wiki/tutorialdict/}
-  \item Para construir gramáticas, visitar \texttt{https://www.w3.org/TR/2000/NOTE-jsgf-20000605/}
+  \item Para construir diccionarios, visitar \url{https://cmusphinx.github.io/wiki/tutorialdict/}
+  \item Para construir gramáticas, visitar \url{https://www.w3.org/TR/2000/NOTE-jsgf-20000605/}
   \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Ejercicio}
-  Hacer una nueva gramática para una prueba simple de GPSR.
+  Verificar los volúmenes del micrófono. Correr el launch con la gramática como está. Modificar el launch para usar otra gramática. Hacer una nueva gramática para la prueba final de @Home Beginners.
   
 \end{frame}
 
