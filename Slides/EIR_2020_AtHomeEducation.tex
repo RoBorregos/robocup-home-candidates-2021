@@ -378,12 +378,20 @@
   \item Ejecutar el comando \texttt{roslaunch bring\_up pocketsphinx\_test.launch}
   \item Verificar los volúmenes del micrófono
   \item Revisar el archivo \texttt{catkin\_ws/src/pocketsphinx/vocab/voice\_cmd.gram} para ver las frases que se pueden reconocer de acuerdo con la gramática.
-  \item Probar el reconocimiento de voz. 
+  \item Probar el reconocimiento de voz.
+  \item Detener la ejecución. En el archivo \texttt{catkin\_ws/src/bring\_up/launch/pocketsphinx\_text.launch}:
+    \begin{enumerate}
+    \item Cambiar el valor del parámetro \texttt{gram} de \texttt{.../voice\_cmd} a \texttt{.../restaurant}
+    \item Cambiar el valor del parámetro \texttt{dict} de \texttt{../voice\_cmd.dic} a \texttt{restaurant.dict}
+    \item Cambiar el valor de \texttt{grammar} de \texttt{voice\_cmd} a \texttt{restaurant}
+    \item Cambiar el valor de \texttt{rule} de \texttt{move2} a \texttt{command}
+    \end{enumerate}
+  \item Relanzar el archivo \texttt{pocketsphinx\_test.launch} y verificar el reconocimiento de acuerdo con la gramática del archivo \texttt{restaurant.gram}
   \end{enumerate}
 \end{frame}
 
 %%%%%%%%%%
-%%%%%%%%%% RECONOCIMIENTO DE VOZ
+%%%%%%%%%% SINTESIS DE VOZ
 %%%%%%%%%%
 \section{Síntesis de voz}
 \begin{frame}\frametitle{Síntesis de voz con SoundPlay}
@@ -403,20 +411,71 @@
 
 \begin{frame}\frametitle{Ejercicio}
   \begin{enumerate}
-    \item Ejecutar el comando 
+  \item Ejecutar el comando \texttt{roslaunch bring\_up speech\_test.launch}
+  \item Ejecutar el comando \texttt{rosrun speech\_syn speech\_test.py ``my first synthetized voice''}
   \end{enumerate}
 \end{frame}
 
-\begin{frame}\frametitle{OpenCV: Segmentación por color}
-  Dar algo de teoría
+\begin{frame}\frametitle{Instalación de más voces}
+  \begin{itemize}
+  \item Las voces se pueden instalar con \texttt{sudo apt-get install festvox-<voz deseada>}
+  \item Para ver qué voces se tienen instaladas: \texttt{ls /usr/share/festival/voices/english/}
+  \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{OpenCV: Segmentación por color}
-  Cosas de ROS y ejercicios
+\begin{frame}\frametitle{Ejercicio}
+  \begin{enumerate}
+  \item Instalar alguna voz.
+  \item Verificar el nombre de la voz en el directorio \texttt{ls /usr/share/festival/voices/english/}
+  \item Modificar el archivo \texttt{catkin\_ws/src/speech\_syn/scripts/speech\_test.py} y cambiar la voz a utilizar en el mensaje SoundRequest.
+  \item El nombre de la voz se compone de \texttt{voice\_} más el nombre que aparece en la carpeta \texttt{voices/english}. 
+  \end{enumerate}
 \end{frame}
 
-\begin{frame}\frametitle{OpenCV: Reconocimiento con SIFT}
-  Dar algo de teoría
+%%%%%%%%%%
+%%%%%%%%%% VISIÓN
+%%%%%%%%%%
+\section{Visión}
+\begin{frame}\frametitle{La biblioteca OpenCV}
+  \begin{itemize}
+  \item OpenCV es un conjunto de bibliotecas que facilita la implementación de algoritmos de visión computacional.
+  \item Se puede usar con diversos lenguajes: C++, Python, Java.
+  \item En Python utiliza la biblioteca Numpy.
+  \item Las imágenes se representan como matrices donde cada elemento puede ser un solo valor, o bien tres valores, dependiendo de si la imagen está en escala de grises o a color.
+  \item La configuración más común es que cada pixel esté representado por tres bytes.
+  \end{itemize}
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.5\textwidth]{Figures/representation_image.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}\frametitle{Espacios de color}
+  Son diferentes formas de representar el color.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.35\textwidth]{Figures/RGB_model.pdf}
+    \includegraphics[width=0.35\textwidth]{Figures/hsv_space.pdf}
+  \end{figure}
+  En segmentación por color se recomienda más usar HSV, pues es más robusto ante cambios en la iluminación.
+\end{frame}
+
+\begin{frame}\frametitle{OpenCV y ROS}
+  \begin{itemize}
+  \item OpenCV utiliza la biblioteca Numpy para representar imágenes con matrices
+  \item ROS representa las imágenes usando mensajes de tipo \texttt{sensor\_msgs/Image} o \texttt{sensor\_msgs/PointCloud2}.
+  \item Para \textit{traducir} las imágenes entre los diferentes formatos, se utiliza el paquete \texttt{cv\_bridge} (\url{http://wiki.ros.org/cv_bridge}).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Segmentación por color}
+  La segmentación de una imagen se refiere a obtener regiones con ciertas características. En este caso, que estén en un cierto intervalo de color. Los pasos generales para esto son:
+  \begin{enumerate}
+  \item Trasnformación de la imagen del espacio BGR al HSV (función \texttt{cvtColor})
+  \item Obtención de aquellos pixeles que están en un rango de color (función \texttt{inRange})
+  \item Eliminación de \textit{outliers}, generalmente con operadores morfológicos (funciones \texttt{erode} y \texttt{dilate})
+  \item Obtención de la posición de la región (funciones \texttt{findNonZero} y \texttt{mean})
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}\frametitle{OpenCV: Reconocimiento con SIFT}
