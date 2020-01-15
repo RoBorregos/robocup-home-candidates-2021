@@ -471,7 +471,7 @@
 \begin{frame}\frametitle{Segmentación por color}
   La segmentación de una imagen se refiere a obtener regiones con ciertas características. En este caso, que estén en un cierto intervalo de color. Los pasos generales para esto son:
   \begin{enumerate}
-  \item Trasnformación de la imagen del espacio BGR al HSV (función \texttt{cvtColor})
+  \item Transformación de la imagen del espacio BGR al HSV (función \texttt{cvtColor})
   \item Obtención de aquellos pixeles que están en un rango de color (función \texttt{inRange})
   \item Eliminación de \textit{outliers}, generalmente con operadores morfológicos (funciones \texttt{erode} y \texttt{dilate})
   \item Obtención de la posición de la región (funciones \texttt{findNonZero} y \texttt{mean})
@@ -484,7 +484,7 @@
   \item Ejecutar el nodo \texttt{rosrun vision color\_segmentation.py}
   \item Utilizando la ventana ``Image BGR'', obtener una captura de pantalla, guardarla y abrirla con cualquier editor de imágenes (Kolour Paint, por ejemplo) para obtener los valores HSV de la taza o de la lata de Cola-Cola.
     \item \textbf{Nota:} En OpenCV, los valores de \textit{Saturation} y \textit{Value} se almacenan como valores entre 0 y 255. El valor de \textit{Hue} es un ángulo y suele calcularse en grados, sin embargo, puesto que 360 no puede expresarse con 8 bits, OpenCV almacena la mitad del ángulo en el canal \textit{Hue}. 
-  \item Modificar el archivo \texttt{catkin\_ws/src/vision/scripts/color\_segmentation.py}, en la función \texttt{inRange}, para segementar correctamete la taza verde o la lata de Coca-Cola. Revisar la documentación en línea de dicha función (\url{https://docs.opencv.org/3.4/da/d97/tutorial_threshold_inRange.html}). 
+  \item Modificar el archivo \texttt{catkin\_ws/src/vision/scripts/color\_segmentation.py}, en la función \texttt{inRange}, para segmentar correctamente la taza verde o la lata de Coca-Cola. Revisar la documentación en línea de dicha función (\url{https://docs.opencv.org/3.4/da/d97/tutorial_threshold_inRange.html}). 
   \end{enumerate}
 \end{frame}
 
@@ -495,6 +495,50 @@
   \item Es muy útil cuando los objetos a reconocer son ricos en texturas (bolsas de frituras, latas de refresco, etc)
   \item Si los objetos son lisos (platos, tazas, cubiertos), conviene más usar segmentación por color o forma.
   \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Reconocimiento de objetos con SIFT}
+  El proceso general para entrenar, y posteriormente, reconocer un objeto, es el siguiente:
+
+  \textbf{Entrenamiento:}
+  \begin{enumerate}
+  \item Tomar una foto del objeto aislado. Esta foto servirá como patrón.
+  \item En OpenCv, crear un objeto de tipo \texttt{xfeatures2d.SIFT\_create} y mediante la función \texttt{detectAndCompute} obtener un conjunto de puntos característicos y sus descriptores.
+  \item Almacenar dichos puntos y descriptores en un archivo. Puede ser binario, yaml, json, etc. En este curso se usará Json.
+  \end{enumerate}
+
+  \textbf{Reconocimiento:}
+  \begin{enumerate}
+  \item Cargar los puntos y descriptores del objeto que se desea reconocer. Estos serán los valores \textit{train}.
+  \item En OpenCv, crear un objeto de tipo \texttt{xfeatures2d.SIFT\_create} y mediante la función \texttt{detectAndCompute} obtener un conjunto de puntos característicos y sus descriptores de la imagen de prueba. Estos serán los valores \textit{query}.
+  \item Comparar los valores \textit{train} con los valores \textit{query} y obtener el subconjunto de valores \textit{query} que más se parece al conjunto \textit{train}. Si la diferencia es menor que un umbral, se puede considerar que el objeto entrenado está presente en la escena.
+  \item Esta comparación se puede hacer con la función \texttt{knnMatch} de la clase \texttt{FlannBasedMatcher}.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio}
+  \begin{enumerate}
+  \item Ejecutar el comando \texttt{roslaunch bring\_up robotino\_simul.launch}
+  \item Ejecutar el nodo \texttt{rosrun vision sift\_detection.py}
+  \item Tomar una captura de la ventana \texttt{Image BGR} y editarla para obtener una imagen como la de la figura, ya sea de la taza verde o la lata de Coca-Cola. El nombre del archivo no debe tener espacios.
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.15\textwidth]{Figures/GreenCup.png}
+    \end{figure}
+  \item Ejecutar el comando \texttt{rosrun vision sift\_training.py \_object\_name:=<NombreArchivo>}. El nombre del archivo es el de la imagen editada en el punto anterior sin extensión.
+    \item Verificar que el archivo .json se haya generado correctamente. Este debería estar en la carpeta \texttt{catkin\_ws/src/vision/training}.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio}
+  \begin{enumerate}
+  \item Ejecutar el nodo \texttt{rosrun vision sift\_recognition.py \_object\_name:=<NombreArchivo>}
+  \item Verificar el correcto reconocimiento. Si no se logró, realizar uno de los siguientes ajustes:
+    \begin{itemize}
+    \item Modificar el umbral en la línea 37 de archivo \texttt{sift\_recognition.py},
+      \item O la más recomendable: tomar otra captura y volver a entrenar. 
+    \end{itemize}
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}\frametitle{Planeación de acciones}

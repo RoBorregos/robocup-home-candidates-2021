@@ -9,11 +9,13 @@ from sensor_msgs.msg import Image
 def callback_rgb(msg):
     bridge = cv_bridge.CvBridge()
     img_bgr  = bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
+    img_ori  = bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
     img_gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
     sift = cv2.xfeatures2d.SIFT_create()
     kp, des = sift.detectAndCompute(img_gray,None)
     cv2.drawKeypoints(img_gray,kp,img_bgr)
     cv2.imshow("SIFT Keypoints", img_bgr)
+    cv2.imshow("BGR Image", img_ori)
     cv2.waitKey(1)
     
 def main():
