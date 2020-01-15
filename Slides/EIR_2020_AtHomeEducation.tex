@@ -478,8 +478,23 @@
   \end{enumerate}
 \end{frame}
 
-\begin{frame}\frametitle{OpenCV: Reconocimiento con SIFT}
-  Cosas de ROS y ejercicios
+\begin{frame}\frametitle{Ejercicio}
+  \begin{enumerate}
+  \item Ejecutar el comando \texttt{roslaunch bring\_up robotino\_simul.launch}
+  \item Ejecutar el nodo \texttt{rosrun vision color\_segmentation.py}
+  \item Utilizando la ventana ``Image BGR'', obtener una captura de pantalla, guardarla y abrirla con cualquier editor de imágenes (Kolour Paint, por ejemplo) para obtener los valores HSV de la taza o de la lata de Cola-Cola.
+    \item \textbf{Nota:} En OpenCV, los valores de \textit{Saturation} y \textit{Value} se almacenan como valores entre 0 y 255. El valor de \textit{Hue} es un ángulo y suele calcularse en grados, sin embargo, puesto que 360 no puede expresarse con 8 bits, OpenCV almacena la mitad del ángulo en el canal \textit{Hue}. 
+  \item Modificar el archivo \texttt{catkin\_ws/src/vision/scripts/color\_segmentation.py}, en la función \texttt{inRange}, para segementar correctamete la taza verde o la lata de Coca-Cola. Revisar la documentación en línea de dicha función (\url{https://docs.opencv.org/3.4/da/d97/tutorial_threshold_inRange.html}). 
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{La transformada SIFT}
+  \begin{itemize}
+  \item La transformada SIFT (Scale Invariant Feature Transform) es un algoritmo para obtener puntos característicos y sus descriptores sin que estos se vean afectados por la rotación o la escala.
+  \item Esta transformada ya viene implementada en OpenCV (\url{https://docs.opencv.org/master/da/df5/tutorial_py_sift_intro.html})
+  \item Es muy útil cuando los objetos a reconocer son ricos en texturas (bolsas de frituras, latas de refresco, etc)
+  \item Si los objetos son lisos (platos, tazas, cubiertos), conviene más usar segmentación por color o forma.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Planeación de acciones}
