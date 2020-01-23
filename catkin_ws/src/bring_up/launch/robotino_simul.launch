@@ -7,8 +7,8 @@
     <param name="noise" value="0.05"/>
   </node>
   <node name="mobile_base" pkg="mobile_base_simulator" type="mobile_base_simulator.py" output="screen"/>
-  <node name="rgbd_simul" pkg="rgbd_simul" type="rgbd_simul.py" output="screen">
-    <param name="bag_file" value="$(find vision)/bags/cups.bag"/>
+  <node name="rgbd_simul" pkg="rgbd_simul" type="rgbd_simul2.py" output="screen">
+    <param name="bag_file" value="$(find vision)/bags/test.bag"/>
   </node>
 
   <node name="map_server" pkg="map_server" type="map_server" output="screen"

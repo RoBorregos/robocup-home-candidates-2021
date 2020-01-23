@@ -24,7 +24,6 @@ Nota: se asume que ya se tiene instalado Ubuntu 18.04 y ROS Melodic
 
 La última instrucción agrega al usuario actual al grupo 'audio', por lo que es necesario hacer logout y login nuevamente. Para probar la instalación:
 
-* Descargar de https://drive.google.com/drive/folders/16Qu8A0ad0OVFbceSa240HcpdFSWXZBHi el archivo cups.bag y colocarlo en la carpeta catkin_ws/src/vision/bags
 * $ source EIR-2020-AtHomeEducation/catkin_ws/devel/setup.bash
 * $ roslaunch bring_up robotino_simul.launch
 
@@ -37,6 +36,12 @@ Para compilar las diapositivas del curso (se asume que se tiene instalado texliv
 * $ cd ~/EIR-2020-AtHomeEducation/Slides
 * $ pdflatex EIR_2020_AtHomeEducation.tex
 
-##ROS Bags
-Dirección Drive para rosbags
-https://drive.google.com/drive/folders/16Qu8A0ad0OVFbceSa240HcpdFSWXZBHi
+En la carpeta /Slides hay una versión compilada.
+
+## Contacto
+Dr. Marco Negrete
+Profesor Asociado C
+Departamento de Procesamiento de Señales
+Facultad de Ingeniería, UNAM.
+[mnegretev.info](http://mnegretev.info)
+contact@mnegretev.info
