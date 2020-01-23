@@ -39,9 +39,9 @@ Para compilar las diapositivas del curso (se asume que se tiene instalado texliv
 En la carpeta /Slides hay una versión compilada.
 
 ## Contacto
-Dr. Marco Negrete
-Profesor Asociado C
-Departamento de Procesamiento de Señales
-Facultad de Ingeniería, UNAM.
-[mnegretev.info](http://mnegretev.info)
-contact@mnegretev.info
+Dr. Marco Negrete<br>
+Profesor Asociado C<br>
+Departamento de Procesamiento de Señales<br>
+Facultad de Ingeniería, UNAM <br>
+[mnegretev.info](http://mnegretev.info)<br>
+contact@mnegretev.info<br>
