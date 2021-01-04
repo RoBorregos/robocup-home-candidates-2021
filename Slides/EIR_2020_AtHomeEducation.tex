@@ -53,18 +53,19 @@
 \renewcommand{\tablename}{Tabla}
 \renewcommand{\figurename}{Figura}
 
-\title[Robocup@Home Beginners]{Curso Introductorio para la Categoría\\Robocup@Home Beginners}
-\author[Marco Negrete y Luis González]{Instructores: \\ Marco Antonio Negrete Villanueva \\ Luis González Nava}
+\title[Robocup@Home Basic Tasks]{Tareas Básicas en Robots de Servicio Doméstico\\para la liga Robocup@Home}
+\author[Marco Negrete]{Instructor: \\ Marco Antonio Negrete Villanueva}
 \institute[FI, UNAM]{Facultad de Ingeniería, UNAM}
-\date[EIR 2020]{Escuela de Invierno de Robótica 2020, Saltillo, México.}
+\date[EIR 2021]{Escuela de Invierno de Robótica 2021, Modalidad Virtual}
 
 \begin{frame}
 \titlepage
 \end{frame}
 
 \begin{frame}\frametitle{Objetivos}
+  \textbf{Objetivo General:} Brindar los conocimientos básicos necesarios para desarrollar un robot de servicio doméstico. 
   \begin{itemize}
-  \item Revisar el hardware necesario para tener un robot de servicio doméstico: sensores y actuadores necesarios.
+  \item Revisar el hardware necesario para tener un robot de servicio doméstico: sensores y actuadores más comunes.
   \item Dar un panorama general del software necesario para desarrollar un robot de servicio doméstico.
   \item Revisar las herramientas disponibles para cubrir las habilidades requeridas en la categoría @Home Beginners:
     \begin{itemize}
@@ -88,10 +89,10 @@
       \begin{itemize}
       \item Interacción humano-robot
       \item Navegación en ambientes dinámicos
-      \item Visión computacional y reconocimiento de objetos
+      \item Reconocimiento de objetos
       \item Manipulación de objetos
       \item Comportamientos adaptables
-      \item Integración de Comportamientos
+      \item Planeación de acciones
       \item Estandarización e integración de sistemas
       \end{itemize}
     \end{column}
@@ -187,6 +188,16 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}\frametitle{Configuraciones mínimas}
+  \begin{itemize}
+  \item Se requiere que todo esté expresado con respecto a una referencia 'absoluta' (sensores, actuadores, detecciones)
+  \item Para ello se requiere que todos los sensores y actuadores tengan un sistema de referencia asociado.
+  \item Y se requiere de un árbol de transformaciones que relacione todos los sistemas de referencia.
+  \item El árbol de transformaciones de los sensores y actuadores del robot se puede definir en un archivo \textit{urdf}
+  \item Se recomienda que el \textit{frame} raíz tenga el nombre \texttt{base\_link}. Ejemplo: \texttt{catkin\_ws/src/hardware/robot\_description/robotino.urdf}
+  \item El paquete \texttt{robot\_state\_publisher} se puede utilizar para publicar el árbol de transformaciones del robot a partir del archivo URDF.
+  \end{itemize}
+\end{frame}
 
 \begin{frame}\frametitle{Configuraciones mínimas}
   \begin{itemize}
