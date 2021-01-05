@@ -63,8 +63,11 @@
 \end{frame}
 
 \begin{frame}\frametitle{Objetivos}
+  \textbf{Objetivo General:} Brindar los conocimientos básicos necesarios para desarrollar un robot de servicio doméstico.
+  \\
+  \textbf{Objetivos Específicos:}
   \begin{itemize}
-  \item Revisar el hardware necesario para tener un robot de servicio doméstico: sensores y actuadores necesarios.
+  \item Revisar el hardware necesario para tener un robot de servicio doméstico: sensores y actuadores más comunes.
   \item Dar un panorama general del software necesario para desarrollar un robot de servicio doméstico.
   \item Revisar las herramientas disponibles para cubrir las habilidades requeridas en la categoría @Home Beginners:
     \begin{itemize}
@@ -88,10 +91,10 @@
       \begin{itemize}
       \item Interacción humano-robot
       \item Navegación en ambientes dinámicos
-      \item Visión computacional y reconocimiento de objetos
+      \item Reconocimiento de objetos
       \item Manipulación de objetos
       \item Comportamientos adaptables
-      \item Integración de Comportamientos
+      \item Planeación de acciones
       \item Estandarización e integración de sistemas
       \end{itemize}
     \end{column}
@@ -187,47 +190,66 @@
   \end{columns}
 \end{frame}
 
+\begin{frame}\frametitle{Configuraciones mínimas}
+  \begin{itemize}
+  \item Se requiere que todo esté expresado con respecto a una referencia 'absoluta' (sensores, actuadores, detecciones)
+  \item Para ello se requiere que todos los sensores y actuadores tengan un sistema de referencia asociado.
+  \item Y se requiere de un árbol de transformaciones que relacione todos los sistemas de referencia.
+  \item El árbol de transformaciones de los sensores y actuadores del robot se puede definir en un archivo \textit{urdf}
+  \item Se recomienda que el \textit{frame} raíz tenga el nombre \texttt{base\_link}. Ejemplo: \texttt{catkin\_ws/src/hardware/robot\_description/robotino.urdf}
+  \item El paquete \texttt{robot\_state\_publisher} se puede utilizar para publicar el árbol de transformaciones del robot a partir del archivo URDF.
+  \end{itemize}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/robotino_tf.png}
+  \end{figure}
+\end{frame}
 
 \begin{frame}\frametitle{Configuraciones mínimas}
   \begin{itemize}
-  \item Se requiere de un marco de referencia absoluto, comúnmente llamado \texttt{map}. En Rviz, \texttt{map} se selecciona como referencia global.
+  \item El marco de referencia global se suele llamar \texttt{map}. En Rviz, \texttt{map} se selecciona como referencia global y todo se dibuja con respecto a este sistema.
   \item La base móvil debe publicar su odometría y aceptar comandos de movimiento.
-    \begin{itemize}
-    \item Para la odometría, debe publicar la transformación de \texttt{odom} a \texttt{base\_link}.
-    \item Para los comandos de movimiento, debe suscribirse al tópico \texttt{/cmd\_vel} de tipo \texttt{geometry\_msgs/Twist}.
-    \end{itemize}
-  \item Se requiere de un nodo que publique la transformación de \texttt{odom} a \texttt{map}.
+  \item Se requiere de un nodo de localización que publique la transformación de \texttt{odom} a \texttt{map}.
     \begin{itemize}
     \item Si se está construyendo un mapa, esta transformación la publican paquetes como \texttt{gmapping} o \texttt{hector-mapping}.
     \item Si ya se tiene un mapa, la trasnformación la publica el nodo de localización, generalmente \texttt{amcl}. 
     \end{itemize}
-  \item Se requiere de un archivo que describa la cinemática del robot (archivo \texttt{urdf}), es decir, el árbol de transformaciones. Se recomienda que el \textit{frame} raíz tenga el nombre \texttt{base\_link}. Ejemplo: \texttt{catkin\_ws/src/hardware/robot\_description/robotino.urdf}
-    \item Cada \texttt{joint} del robot corresponderá a una transformación publicada por el nodo \texttt{robot\_state\_publisher}.
-    \end{itemize}
+  \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Ejercicio}
-  Ejecutar el comando \texttt{roslaunch bring\_up robotino\_simul.launch}. Debe aparecer un rviz como el siguiente:
+\begin{frame}\frametitle{Ejercicio - Configuraciones mínimas}
+  \begin{enumerate}
+    \item Ejecutar el comando \texttt{roslaunch bring\_up robotino\_simul.launch}. Debe aparecer un rviz como el siguiente:
   \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{Figures/RepoExample.png}
+    \includegraphics[width=0.5\textwidth]{Figures/RepoExample.png}
   \end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Ejercicio}
-  \begin{enumerate}
+  
   \item Ejecutar el comando \texttt{rosrun tf view\_frames} y verificar en el archivo resultante (\textit{frames.pdf}) las transformaciones y qué nodos las publican.
   \item Mediante el comando \texttt{rostopic info}, desplegar la información de los tópicos \texttt{/cmd\_vel} , \texttt{/scan} y \texttt{/camera/depth\_registered/points}.
-  \item Detener la ejecución y modificar el archivo \texttt{catkin\_ws/src/bring\_up/launch/robotino\_simul.launch} para cambiar lo siguiente:
+    \item Detener los programas en ejecución
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio - Configuraciones mínimas}
+  \begin{enumerate}
+  \item Modificar el archivo \texttt{catkin\_ws/src/hardware/robot\_description/robotino.urdf} y ejecutar nuevamente el comando \texttt{roslaunch bring\_up robotino\_simul.launch}. Observar qué sucede cuando:
+  \begin{itemize}
+  \item Se cambian los valores de la etiqueta \texttt{origin} en la línea 121.
+  \item Se elimina alguno de los campos \texttt{<joint>}.
+  \end{itemize}
+  \item Modificar el archivo \texttt{catkin\_ws/src/bring\_up/launch/robotino\_simul.launch} para cambiar lo siguiente:
   \begin{itemize}
   \item La descripción del robot (\texttt{robotino.urdf} o \texttt{justina\_simple.urdf})
   \item El mapa del ambiente (Universum, Biorobotica o TMR\_2019)
   \end{itemize}
-  \item Modificar el archivo \texttt{catkin\_ws/src/hardware/robot\_description/robotino.urdf} y ver qué sucede cuando:
+  \item Ejecutar nuevamente el comando \texttt{roslaunch bring\_up robotino\_simul.launch}.
   \begin{itemize}
-  \item Se cambian los valores de la etiqueta \texttt{origin} en la línea 114.
-  \item Se elimina alguno de los campos \texttt{<joint>}.
+  \item Observar los errores que aparecen en el RViz
+  \item Intente deducir cuál es el problema. ¿Por qué no se puede desplegar la nube de puntos?
+  \item Ejecute el comando \texttt{rosrun joint\_state\_publisher\_gui joint\_state\_publisher\_gui}
   \end{itemize}
+  \item Detenga los programas en ejecución y regrese el archivo \texttt{robotino\_simul.launch} a la configuración original.
 \end{enumerate}
 \end{frame}
 
@@ -304,7 +326,7 @@
   \begin{itemize}
   \item \texttt{map\_server}: Lee el mapa de dos archivos, una imagen \texttt{.pgm} y un \texttt{yaml} con meta datos. Publica el mapa usando un mensaje de tipo \texttt{nav\_msgs/OccupancyGrid}.
   \item \texttt{amcl}: Realiza la localización usando el mapa, la odometría y las lecturas del láser. Publica la transformación de \texttt{odom} a \texttt{map}.
-    \texttt{move\_base}: Realiza la mayor parte de las tareas de planeación de movimientos, para lo que usa los paquetes:
+  \item  \texttt{move\_base}: Realiza la mayor parte de las tareas de planeación de movimientos, para lo cual usa los paquetes:
     \begin{itemize}
     \item \texttt{dwa\_local\_planner}
     \item \texttt{navfn}
@@ -375,17 +397,18 @@
 
 \begin{frame}\frametitle{Ejercicio}
   \begin{enumerate}
-  \item Ejecutar el comando \texttt{roslaunch bring\_up pocketsphinx\_test.launch}
   \item Verificar los volúmenes del micrófono
   \item Revisar el archivo \texttt{catkin\_ws/src/pocketsphinx/vocab/voice\_cmd.gram} para ver las frases que se pueden reconocer de acuerdo con la gramática.
+  \item Ejecutar el comando \texttt{roslaunch bring\_up pocketsphinx\_test.launch}
   \item Probar el reconocimiento de voz.
   \item Detener la ejecución. En el archivo \texttt{catkin\_ws/src/bring\_up/launch/pocketsphinx\_text.launch}:
     \begin{enumerate}
-    \item Cambiar el valor del parámetro \texttt{gram} de \texttt{.../voice\_cmd} a \texttt{.../restaurant}
-    \item Cambiar el valor del parámetro \texttt{dict} de \texttt{../voice\_cmd.dic} a \texttt{restaurant.dict}
+    \item Cambiar el valor del parámetro \texttt{gram} de \texttt{/voice\_cmd} a \texttt{/restaurant}
+    \item Cambiar el valor del parámetro \texttt{dict} de \texttt{/voice\_cmd.dic} a \texttt{/restaurant.dict}
     \item Cambiar el valor de \texttt{grammar} de \texttt{voice\_cmd} a \texttt{restaurant}
     \item Cambiar el valor de \texttt{rule} de \texttt{move2} a \texttt{command}
     \end{enumerate}
+    \item Revisar el archivo \texttt{catkin\_ws/src/pocketsphinx/vocab/restaurant.gram} para ver las frases que se pueden reconocer de acuerdo con esta nueva gramática.
   \item Relanzar el archivo \texttt{pocketsphinx\_test.launch} y verificar el reconocimiento de acuerdo con la gramática del archivo \texttt{restaurant.gram}
   \end{enumerate}
 \end{frame}
@@ -551,7 +574,7 @@
 \end{frame}
 
 \begin{frame}\frametitle{Planeación de acciones. Ejercicio}
-Hacer programa para obedecer un comando de navegar a un lugar y buscar un objeto.
+Hacer programa para que el robot se mueva obedeciendo los comandos de voz del ejercicio con \texttt{Pocketsphinx}.
 \end{frame}
 
 \begin{frame}\frametitle{Contacto}
@@ -560,7 +583,8 @@ Hacer programa para obedecer un comando de navegar a un lugar y buscar un objeto
   Departamento de Procesamiento de Señales\\
   Facultad de Ingeniería, UNAM.
 \[\]
-  mnegretev.info\\
-  contact@mnegretev.info 
+mnegretev.info\\
+marco.negrete@ingenieria.unam.edu\\
+contact@mnegretev.info 
 \end{frame}
 \end{document}
