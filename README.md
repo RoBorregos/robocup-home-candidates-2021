@@ -1,48 +1,36 @@
-# EIR-2021-AtHomeEducation
+# Robocup@Home - Roborregos Candidates 2021
 
-Software para el curso "Tareas básicas en robots de servicio doméstico para la liga Robocup@Home" de la Escuela de Invierno de Robótica 2020-2021.
+## Developers & Contact Info
+| Nombre | Correo | Github |
+| ---- | ----- | ------ |
+| José Cisneros | [A01283070@itesm.mx](mailto:A01283070@itesm.mx) | [@Josecisneros001](https://github.com/Josecisneros001) |
+| Aurora Tijerina | [A01196690@itesm.mx](mailto:A01196690@itesm.mx) | [@AuroTB](https://github.com/AuroTB) |
 
-## Requerimientos
+## Requirements
 
-* Ubuntu 18.04
-* ROS Melodic
+* Ubuntu System
+* Docker
+    * Follow up the tutorial according to your SO:
+    https://docs.docker.com/get-docker/ 
+* python3
+    * Follow up the tutorial according to your SO:
+    https://www.python.org/downloads/
+* Rocker
+    * Installation:
+        * Debian: ``` sudo apt-get install python3-rocker```
+        * Other SOs:  ``` pip install rocker ```
+    * Nvidia Support Installation (Optional, it could run with Intel Integrated Graphics Card):
+        * Rocker with nvidia support:
+        ```bash
+        distribution=$(. /etc/os-release;echo $ID$VERSION_ID)    && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -    && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+        sudo apt-get update
+        sudo apt-get install -y nvidia-docker2
+        sudo systemctl restart docker
+        ```
+* Github Repository
+    ```bash
+    git clone https://github.com/RoBorregos/robocup-home-candidates-2021.git
+    cd robocup-home-candidates-2021
+    ```
 
-Los paquetes también fueron probados para Ubuntu 16.04 y ROS Kinectic, sin embargo, el script de instalación fue hecho para ROS Melodic.
-
-Adicionalmente se recomienda tener micrófono y bocinas para las pruebas de reconocimiento y síntesis de voz. La mayoría de las pruebas ser harán en simulación, sin embargo, al final del curso se harán demostraciones utilizando un Turtlebot. 
-
-## Instalación
-
-Nota: se asume que ya se tiene instalado Ubuntu 18.04 y ROS Melodic
-
-* $ git clone https://github.com/mnegretev/EIR-2021-AtHomeBasicTasks
-* $ cd EIR-2021-AtHomeBasicTasks
-* $ ./Setup.sh
-* $ cd catkin_ws
-* $ catkin_make -j2 -l2
-* $ sudo usermod -a -G audio <user_name>
-
-La última instrucción agrega al usuario actual al grupo 'audio', por lo que es necesario hacer logout y login nuevamente. Para probar la instalación:
-
-* $ source EIR-2021-AtHomeBasicTasks/catkin_ws/devel/setup.bash
-* $ roslaunch bring_up robotino_simul.launch
-
-Si todo se instaló y compiló correctamente, se debería ver un rviz como el siguiente:
-
-![RepoExample](https://github.com/mnegretev/EIR-2021-AtHomeBasicTasks/blob/master/Slides/Figures/RepoExample.png)
-
-Para compilar las diapositivas del curso (se asume que se tiene instalado texlive):
-
-* $ cd ~/EIR-2020-AtHomeBasicTasks/Slides
-* $ pdflatex EIR_2020_AtHomeEducation.tex
-
-En la carpeta /Slides hay una versión compilada.
-
-## Contacto
-Dr. Marco Negrete<br>
-Profesor Asociado C<br>
-Departamento de Procesamiento de Señales<br>
-Facultad de Ingeniería, UNAM <br>
-[mnegretev.info](http://mnegretev.info)<br>
-contact@mnegretev.info<br>
-marco.negrete@ingenieria.unam.edu
+## Run
